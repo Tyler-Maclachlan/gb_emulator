@@ -43,6 +43,7 @@ pub enum CBInstruction {
     SET(u8, Reg8),
 }
 
+#[derive(Debug)]
 pub enum Instruction {
     // 8-bit loads
     LD(Operand8, Operand8),
@@ -103,6 +104,7 @@ pub enum Instruction {
     CB(CBInstruction),
 }
 
+#[derive(Debug)]
 pub struct DecodedInstruction {
     pub instruction: Instruction,
     pub length: u8,       // Number of bytes

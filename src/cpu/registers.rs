@@ -124,6 +124,19 @@ impl Registers {
         }
     }
 
+    pub fn add_signed_to_sp(&mut self, offset: i8) -> u16 {
+        let offset_u16 = offset as i16 as u16;
+        let result = self.sp.wrapping_add(offset_u16);
+
+        // TODO: These should probably move to the functions that call this - side-effects shouldn't be hidden
+        self.set_zf(false);
+        self.set_nf(false);
+        self.set_hf(((self.sp & 0xF) + (offset_u16 & 0xF)) > 0xF);
+        self.set_cf(((self.sp & 0xFF) + (offset_u16 & 0xFF)) > 0xFF);
+
+        result
+    }
+
     #[inline]
     pub fn zf(&self) -> bool {
         self.f.contains(Flags::ZERO)
