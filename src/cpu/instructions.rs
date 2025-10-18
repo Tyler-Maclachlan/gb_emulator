@@ -101,9 +101,9 @@ pub enum Instruction {
 
 pub struct DecodedInstruction {
     pub instruction: Instruction,
-    pub length: u8,              // Number of bytes
-    pub cycles: u8,              // Base machine cycles
-    pub extra_cycle: Option<u8>, // If an extra cycle is needed for branching (jumps/calls)
+    pub length: u8,       // Number of bytes
+    pub cycles: u8,       // Base machine cycles
+    pub extra_cycles: u8, // Extra cyles needed for branching (jumps/calls)
 }
 
 pub fn decode(opcode: u8, next1: u8, next2: u8) -> DecodedInstruction {
@@ -118,7 +118,7 @@ pub fn decode(opcode: u8, next1: u8, next2: u8) -> DecodedInstruction {
             instruction: NOP,
             length: 1,
             cycles: 4,
-            extra_cycle: None,
+            extra_cycles: 0,
         },
         // LD BC n16
         0x01 => {
@@ -128,7 +128,7 @@ pub fn decode(opcode: u8, next1: u8, next2: u8) -> DecodedInstruction {
                 instruction: LD16(O16Reg(Reg16::BC), Immediate16(imm)),
                 length: 3,
                 cycles: 12,
-                extra_cycle: None,
+                extra_cycles: 0,
             }
         }
         // LD BC A
@@ -136,15 +136,359 @@ pub fn decode(opcode: u8, next1: u8, next2: u8) -> DecodedInstruction {
             instruction: LD(Indirect(Reg16::BC), Reg(Reg8::A)),
             length: 1,
             cycles: 8,
-            extra_cycle: None,
+            extra_cycles: 0,
         },
         // INC BC
         0x03 => DecodedInstruction {
             instruction: INC16(Reg16::BC),
             length: 1,
             cycles: 8,
-            extra_cycle: None,
+            extra_cycles: 0,
         },
-        _ => todo!("Not yet implemented"),
+        // LD B B
+        0x40 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::B), Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD B C
+        0x41 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::B), Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD B D
+        0x42 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::B), Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD B E
+        0x43 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::B), Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD B H
+        0x44 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::B), Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD B L
+        0x45 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::B), Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD B A
+        0x47 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::B), Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD C B
+        0x48 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::C), Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD C C
+        0x49 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::C), Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD C D
+        0x4A => DecodedInstruction {
+            instruction: LD(Reg(Reg8::C), Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD C E
+        0x4B => DecodedInstruction {
+            instruction: LD(Reg(Reg8::C), Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD C H
+        0x4C => DecodedInstruction {
+            instruction: LD(Reg(Reg8::C), Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD C L
+        0x4D => DecodedInstruction {
+            instruction: LD(Reg(Reg8::C), Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD C A
+        0x4F => DecodedInstruction {
+            instruction: LD(Reg(Reg8::C), Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD D B
+        0x50 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::D), Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD D C
+        0x51 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::D), Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD D D
+        0x52 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::D), Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD D E
+        0x53 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::D), Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD D H
+        0x54 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::D), Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD D L
+        0x55 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::D), Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD D A
+        0x57 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::D), Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD E B
+        0x58 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::E), Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD E C
+        0x59 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::E), Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD E D
+        0x5A => DecodedInstruction {
+            instruction: LD(Reg(Reg8::E), Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD E E
+        0x5B => DecodedInstruction {
+            instruction: LD(Reg(Reg8::E), Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD E H
+        0x5C => DecodedInstruction {
+            instruction: LD(Reg(Reg8::E), Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD E L
+        0x5D => DecodedInstruction {
+            instruction: LD(Reg(Reg8::E), Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD E A
+        0x5F => DecodedInstruction {
+            instruction: LD(Reg(Reg8::E), Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD H B
+        0x60 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::H), Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD H C
+        0x61 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::H), Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD H D
+        0x62 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::H), Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD H E
+        0x63 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::H), Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD H H
+        0x64 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::H), Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD H L
+        0x65 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::H), Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD H A
+        0x67 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::H), Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD L B
+        0x68 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::L), Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD L C
+        0x69 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::L), Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD L D
+        0x6A => DecodedInstruction {
+            instruction: LD(Reg(Reg8::L), Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD L E
+        0x6B => DecodedInstruction {
+            instruction: LD(Reg(Reg8::L), Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD L H
+        0x6C => DecodedInstruction {
+            instruction: LD(Reg(Reg8::L), Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD L L
+        0x6D => DecodedInstruction {
+            instruction: LD(Reg(Reg8::L), Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD L A
+        0x6F => DecodedInstruction {
+            instruction: LD(Reg(Reg8::L), Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD A B
+        0x78 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::A), Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD A C
+        0x79 => DecodedInstruction {
+            instruction: LD(Reg(Reg8::A), Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD A D
+        0x7A => DecodedInstruction {
+            instruction: LD(Reg(Reg8::A), Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD A E
+        0x7B => DecodedInstruction {
+            instruction: LD(Reg(Reg8::A), Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD A H
+        0x7C => DecodedInstruction {
+            instruction: LD(Reg(Reg8::A), Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD A L
+        0x7D => DecodedInstruction {
+            instruction: LD(Reg(Reg8::A), Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // LD A A
+        0x7F => DecodedInstruction {
+            instruction: LD(Reg(Reg8::A), Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+
+        _ => unimplemented!("Not yet implemented"),
     }
 }
