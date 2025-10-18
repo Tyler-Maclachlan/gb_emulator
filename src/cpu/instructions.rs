@@ -70,6 +70,10 @@ pub enum Instruction {
     INC16(Reg16),
     DEC16(Reg16),
 
+    // Special
+    ADDSPIMM(i8),
+    LDHLSPPLUS(i8),
+
     // Rotate / shift (non-CB)
     RLCA,
     RLA,
@@ -141,6 +145,34 @@ pub fn decode(opcode: u8, next1: u8, next2: u8) -> DecodedInstruction {
         // INC BC
         0x03 => DecodedInstruction {
             instruction: INC16(Reg16::BC),
+            length: 1,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // ADD HL BC
+        0x09 => DecodedInstruction {
+            instruction: ADDHL(Reg16::BC),
+            length: 1,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // ADD HL DE
+        0x19 => DecodedInstruction {
+            instruction: ADDHL(Reg16::DE),
+            length: 1,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // ADD HL HL
+        0x29 => DecodedInstruction {
+            instruction: ADDHL(Reg16::HL),
+            length: 1,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // ADD HL SP
+        0x39 => DecodedInstruction {
+            instruction: ADDHL(Reg16::SP),
             length: 1,
             cycles: 8,
             extra_cycles: 0,
@@ -488,7 +520,82 @@ pub fn decode(opcode: u8, next1: u8, next2: u8) -> DecodedInstruction {
             cycles: 4,
             extra_cycles: 0,
         },
-
+        // ADD A B
+        0x80 => DecodedInstruction {
+            instruction: ADD(Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // ADD A C
+        0x81 => DecodedInstruction {
+            instruction: ADD(Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // ADD A D
+        0x82 => DecodedInstruction {
+            instruction: ADD(Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // ADD A E
+        0x83 => DecodedInstruction {
+            instruction: ADD(Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // ADD A H
+        0x84 => DecodedInstruction {
+            instruction: ADD(Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // ADD A L
+        0x85 => DecodedInstruction {
+            instruction: ADD(Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // ADD A HL
+        0x86 => DecodedInstruction {
+            instruction: ADD(IndirectHL),
+            length: 1,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // ADD A A
+        0x87 => DecodedInstruction {
+            instruction: ADD(Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // ADD A n8
+        0xC6 => DecodedInstruction {
+            instruction: ADD(Immediate(next1)),
+            length: 2,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // ADD SP e8
+        0xE8 => DecodedInstruction {
+            instruction: ADDSPIMM(0), // placeholder - actual imm filled at exec time
+            length: 2,
+            cycles: 16,
+            extra_cycles: 0,
+        },
+        0xF8 => DecodedInstruction {
+            instruction: LDHLSPPLUS(0), // placeholder
+            length: 2,
+            cycles: 12,
+            extra_cycles: 0,
+        },
         _ => unimplemented!("Not yet implemented"),
     }
 }
