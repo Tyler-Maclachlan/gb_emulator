@@ -576,9 +576,72 @@ pub fn decode(opcode: u8, next1: u8, next2: u8) -> DecodedInstruction {
             cycles: 4,
             extra_cycles: 0,
         },
+        // SUB A B
+        0x90 => DecodedInstruction {
+            instruction: SUB(Reg(Reg8::B)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // SUB A C
+        0x91 => DecodedInstruction {
+            instruction: SUB(Reg(Reg8::C)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // SUB A D
+        0x92 => DecodedInstruction {
+            instruction: SUB(Reg(Reg8::D)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // SUB A E
+        0x93 => DecodedInstruction {
+            instruction: SUB(Reg(Reg8::E)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // SUB A H
+        0x94 => DecodedInstruction {
+            instruction: SUB(Reg(Reg8::H)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // SUB A L
+        0x95 => DecodedInstruction {
+            instruction: SUB(Reg(Reg8::L)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
+        // SUB A HL
+        0x96 => DecodedInstruction {
+            instruction: SUB(IndirectHL),
+            length: 1,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // SUB A A
+        0x97 => DecodedInstruction {
+            instruction: SUB(Reg(Reg8::A)),
+            length: 1,
+            cycles: 4,
+            extra_cycles: 0,
+        },
         // ADD A n8
         0xC6 => DecodedInstruction {
             instruction: ADD(Immediate(next1)),
+            length: 2,
+            cycles: 8,
+            extra_cycles: 0,
+        },
+        // SUB A n8
+        0xD6 => DecodedInstruction {
+            instruction: SUB(Immediate(next1)),
             length: 2,
             cycles: 8,
             extra_cycles: 0,
