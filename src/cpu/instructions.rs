@@ -4,7 +4,7 @@ use crate::cpu::registers::{Reg8, Reg16};
 #[derive(Clone, Copy, Debug)]
 pub enum Operand8 {
     Reg(Reg8),       // A, B, C, D, E, H, L
-    Immediate(u8),   // d8
+    Immediate(u8),   // n8
     IndirectHL,      // (HL)
     IndirectHLInc,   // (HL+) — HL is incremented after access
     IndirectHLDec,   // (HL-) — HL is decremented after access
@@ -14,8 +14,8 @@ pub enum Operand8 {
 // 16-bit operands used by load, jumps, stack ops, etc
 #[derive(Clone, Copy, Debug)]
 pub enum Operand16 {
-    Reg(Reg16),
-    Immediate(u16),
+    Reg(Reg16),     // BC, DE, HL
+    Immediate(u16), // n16
     Address(u16),
 }
 
